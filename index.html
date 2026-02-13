@@ -1,247 +1,314 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>For you ❤️</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For you</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-}
+  <style>
+    :root { --pink: #ff4e88; }
 
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(15px);
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 0 40px rgba(0,0,0,0.5);
-  animation: fadeIn 1.5s ease-in-out;
-}
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px;
-  margin-bottom: 10px;
-}
+    .float-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
 
-p {
-  font-size: 18px;
-  line-height: 1.6;
-}
+    .card {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+      animation: fadeIn 1.5s ease-in-out;
+    }
 
-button {
-  margin-top: 20px;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 30px;
-  background: #ff4e88;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
 
-button:hover {
-  background: #ff2e6f;
-  transform: scale(1.05);
-}
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    .pink-heart {
+      color: var(--pink);
+    }
 
-.hidden-message {
-  display: none;
-  margin-top: 20px;
-  font-size: 20px;
-  color: #ffd1dc;
-}
-.float-layer {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
-  }
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      background: var(--pink);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
 
-  /* Make sure your main card stays above the floating elements */
-  .card {
-    position: relative;
-    z-index: 1;
-  }
+    button:hover {
+      background: #ff2e6f;
+      transform: scale(1.05);
+    }
 
-  .floater {
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    animation: floatUp var(--dur) linear forwards;
-    will-change: transform, opacity;
-    filter: drop-shadow(0 10px 14px rgba(0,0,0,0.25));
-  }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-  @keyframes floatUp {
-    0% {
+    .hidden-message {
+      display: none;
+      margin-top: 20px;
+      font-size: 20px;
+      color: #ffd1dc;
+    }
+
+    .floater {
+      position: absolute;
+      left: 0;
+      top: 0;
       opacity: 0;
-      transform: translate(var(--x), calc(100vh + 40px)) rotate(0deg) scale(var(--s));
+      transform: translate(-50%, -50%);
+      animation: floatUp var(--dur) linear forwards;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.25));
     }
-    10% {
-      opacity: var(--op);
+
+    @keyframes floatUp {
+      0% {
+        opacity: 0;
+        transform: translate(var(--x), calc(100vh + 40px)) rotate(0deg) scale(var(--s));
+      }
+      10% { opacity: var(--op); }
+      100% {
+        opacity: 0;
+        transform: translate(calc(var(--x) + var(--drift)), -80px) rotate(var(--rot)) scale(var(--s));
+      }
     }
-    100% {
-      opacity: 0;
-      transform: translate(calc(var(--x) + var(--drift)), -80px) rotate(var(--rot)) scale(var(--s));
+
+    .heart, .flower {
+      width: var(--size);
+      height: var(--size);
     }
-  }
 
-  /* Heart shape using pure CSS */
-  .heart {
-    width: var(--size);
-    height: var(--size);
-  }
-  .heart::before,
-  .heart::after {
-    content: "";
-    position: absolute;
-    width: calc(var(--size) * 0.62);
-    height: calc(var(--size) * 0.95);
-    background: var(--pink);
-    border-radius: 999px 999px 0 0;
-    top: calc(var(--size) * 0.1);
-  }
-  .heart::before {
-    left: calc(var(--size) * 0.25);
-    transform: rotate(-45deg);
-    transform-origin: 0 100%;
-  }
-  .heart::after {
-    left: calc(var(--size) * 0.02);
-    transform: rotate(45deg);
-    transform-origin: 100% 100%;
-  }
+    .floater svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
-  /* Kalachuchi SVG wrapper */
-  .flower {
-    width: var(--size);
-    height: var(--size);
-  }
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 9999;
+    }
+    .modal.show { display: block; }
 
-  :root {
-    --pink: #ff4e88;
-  }
-</style>
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(92vw, 560px);
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+    .modal-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.35);
+      color: white;
+      font-size: 22px;
+      line-height: 34px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
-<div class="float-layer" id="floatLayer"></div>
+  <div class="float-layer" id="floatLayer"></div>
 
-<div class="card">
-  <h1>Hola, Mi Amor 💙</h1>
-  <p>I made this just for you.</p>
-  <p>Because even if I don't always say it perfectly…</p>
+  <div class="card">
+    <h1>Hello, my love! <span class="pink-heart">♥</span></h1>
+    <p>I made this just for you.</p>
+    <p>Because even if I don't always say it perfectly…</p>
 
-  <button onclick="showMessage()">Click Me</button>
+    <button onclick="openPhotoAndMessage()">Click Me</button>
 
-  <div class="hidden-message" id="message">
-    I love you more than words can properly explain. So I made this website for you hehe
+    <div class="hidden-message" id="message">
+      I love you more than words can properly explain. So I made this website for you hehe
+    </div>
   </div>
-</div>
 
-<script>
-const layer = document.getElementById("floatLayer");
+  <div class="modal" id="photoModal" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closePhoto()"></div>
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closePhoto()" aria-label="Close">×</button>
+      <img id="modalImg" src="photo.jpg" alt="A photo" />
+    </div>
+  </div>
 
-  // Simple kalachuchi (plumeria) SVG, pink-themed
-  function kalachuchiSVG(petalPink = "#ff7fb0", center = "#ffe3ee") {
-    return `
-      <svg viewBox="0 0 120 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <radialGradient id="g" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stop-color="${center}" />
-            <stop offset="70%" stop-color="${petalPink}" stop-opacity="0.95" />
-            <stop offset="100%" stop-color="${petalPink}" stop-opacity="0.85" />
-          </radialGradient>
-        </defs>
+  <script>
+    const layer = document.getElementById("floatLayer");
 
-        <!-- 5 petals -->
-        <g transform="translate(60 60)">
-          ${[0, 72, 144, 216, 288].map(a => `
-            <path
-              transform="rotate(${a}) translate(0,-28)"
-              d="M 0 -28
-                 C 18 -28, 26 -10, 14 6
-                 C 8 16, 2 26, 0 30
-                 C -2 26, -8 16, -14 6
-                 C -26 -10, -18 -28, 0 -28 Z"
-              fill="url(#g)"
-            />
-          `).join("")}
-          <circle r="10" fill="#ffd3e1" opacity="0.95" />
-          <circle r="5" fill="#fff3f8" opacity="0.95" />
-        </g>
-      </svg>
-    `;
-  }
-
-  function rand(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  function spawn(type) {
-    const el = document.createElement("div");
-    el.className = "floater " + (type === "heart" ? "heart" : "flower");
-
-    const size = Math.round(rand(18, 46)) + "px";
-    const x = Math.round(rand(0, window.innerWidth)) + "px";
-    const drift = Math.round(rand(-120, 120)) + "px";
-    const dur = rand(6, 12).toFixed(2) + "s";
-    const rot = Math.round(rand(-220, 220)) + "deg";
-    const s = rand(0.8, 1.4).toFixed(2);
-    const op = rand(0.35, 0.75).toFixed(2);
-
-    el.style.setProperty("--size", size);
-    el.style.setProperty("--x", x);
-    el.style.setProperty("--drift", drift);
-    el.style.setProperty("--dur", dur);
-    el.style.setProperty("--rot", rot);
-    el.style.setProperty("--s", s);
-    el.style.setProperty("--op", op);
-
-    if (type === "flower") {
-      el.innerHTML = kalachuchiSVG("#ff7fb0", "#ffe6f0");
+    // Cute heart SVG (clean, not disfigured)
+    function heartSVG(color = "#ff4e88") {
+      return `
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M32 56s-18.5-11.7-25.2-22.7C1.6 24.4 5.7 14 15.9 12.2c5.1-.9 10 1.3 13 5.2
+                   3-3.9 7.9-6.1 13-5.2C52.1 14 56.4 24.4 57.2 33.3 50.5 44.3 32 56 32 56z"
+                fill="${color}" />
+        </svg>
+      `;
     }
 
-    layer.appendChild(el);
+    // Kalachuchi (plumeria) SVG, pink-themed
+    function kalachuchiSVG(petalPink = "#ff7fb0", center = "#ffe6f0") {
+      return `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <radialGradient id="g" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="${center}" />
+              <stop offset="70%" stop-color="${petalPink}" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="${petalPink}" stop-opacity="0.85" />
+            </radialGradient>
+          </defs>
+          <g transform="translate(60 60)">
+            ${[0, 72, 144, 216, 288].map(a => `
+              <path
+                transform="rotate(${a}) translate(0,-28)"
+                d="M 0 -28
+                   C 18 -28, 26 -10, 14 6
+                   C 8 16, 2 26, 0 30
+                   C -2 26, -8 16, -14 6
+                   C -26 -10, -18 -28, 0 -28 Z"
+                fill="url(#g)"
+              />
+            `).join("")}
+            <circle r="10" fill="#ffd3e1" opacity="0.95" />
+            <circle r="5" fill="#fff3f8" opacity="0.95" />
+          </g>
+        </svg>
+      `;
+    }
 
-    // Remove after animation finishes
-    const ms = parseFloat(dur) * 1000;
-    setTimeout(() => el.remove(), ms + 200);
-  }
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
 
-  // Spawn rates
-  setInterval(() => spawn("heart"), 650);
-  setInterval(() => spawn("flower"), 1200);
+    function spawn(type) {
+      const el = document.createElement("div");
+      el.className = "floater " + (type === "heart" ? "heart" : "flower");
 
-  // Keep it responsive
-  window.addEventListener("resize", () => {
-    // no special handling needed, new floaters will use updated width
-  });
-</script>
+      const size = Math.round(rand(18, 44)) + "px";
+      const x = Math.round(rand(0, window.innerWidth)) + "px";
+      const drift = Math.round(rand(-120, 120)) + "px";
+      const dur = rand(7, 13).toFixed(2) + "s";
+      const rot = Math.round(rand(-160, 160)) + "deg";
+      const s = rand(0.85, 1.35).toFixed(2);
+      const op = rand(0.4, 0.85).toFixed(2);
 
+      el.style.setProperty("--size", size);
+      el.style.setProperty("--x", x);
+      el.style.setProperty("--drift", drift);
+      el.style.setProperty("--dur", dur);
+      el.style.setProperty("--rot", rot);
+      el.style.setProperty("--s", s);
+      el.style.setProperty("--op", op);
+
+      if (type === "heart") el.innerHTML = heartSVG("#ff4e88");
+      if (type === "flower") el.innerHTML = kalachuchiSVG("#ff7fb0", "#ffe6f0");
+
+      layer.appendChild(el);
+
+      const ms = parseFloat(dur) * 1000;
+      setTimeout(() => el.remove(), ms + 200);
+    }
+
+    // Spawn rates
+    setInterval(() => spawn("heart"), 520);
+    setInterval(() => spawn("flower"), 1050);
+
+    // Modal logic
+    function openPhoto() {
+      const modal = document.getElementById("photoModal");
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closePhoto() {
+      const modal = document.getElementById("photoModal");
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function showMessage() {
+      document.getElementById("message").style.display = "block";
+    }
+
+    function openPhotoAndMessage() {
+      showMessage();
+      openPhoto();
+    }
+
+    // Close on ESC
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closePhoto();
+    });
+
+    // Expose functions for onclick
+    window.openPhotoAndMessage = openPhotoAndMessage;
+    window.closePhoto = closePhoto;
+  </script>
 </body>
 </html>
